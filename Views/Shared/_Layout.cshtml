@@ -85,14 +85,13 @@
             </div>
         </nav>
     </header>
-    <div class="container mt-3">
-        @if (!string.Equals(ViewContext.RouteData.Values["action"]?.ToString(), "Index", StringComparison.OrdinalIgnoreCase))
-        {
-            <button id="backBtn" type="button" class="btn btn-outline-secondary">
-                ← Geri
-            </button>
-        }
-    </div>
+    @* Floating back button: gösterilmesi istenen sayfalarda çıkacak *@
+    @if (!string.Equals(ViewContext.RouteData.Values["action"]?.ToString(), "Index", StringComparison.OrdinalIgnoreCase))
+    {
+        <button id="backBtn" type="button" class="btn btn-primary floating-back-btn" title="Geri dön" data-bs-toggle="tooltip" data-bs-placement="left" aria-label="Geri dön">
+            <span aria-hidden="true">←</span>
+        </button>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -109,6 +108,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         (function () {
+            // Initialize Bootstrap tooltips for elements that request them
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (el) { new bootstrap.Tooltip(el); });
+
             var btn = document.getElementById('backBtn');
             if (btn) {
                 btn.addEventListener('click', function (e) {
