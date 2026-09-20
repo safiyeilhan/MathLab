@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Safiye\\source\\repos\\MathLab\\MathLab.csproj",
+      "projectUniqueName": "C:\\Users\\Safiye\\source\\repos\\git\\MathLab\\MathLab.csproj",
       "projectName": "MathLab",
-      "projectPath": "C:\\Users\\Safiye\\source\\repos\\MathLab\\MathLab.csproj",
+      "projectPath": "C:\\Users\\Safiye\\source\\repos\\git\\MathLab\\MathLab.csproj",
       "packagesPath": "C:\\Users\\Safiye\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Safiye\\source\\repos\\MathLab\\obj\\",
+      "outputPath": "C:\\Users\\Safiye\\source\\repos\\git\\MathLab\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MathLab")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16eb2ba3675b200712c6d51cf3fd74b50a48bf66")]
 [assembly: System.Reflection.AssemblyProductAttribute("MathLab")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MathLab")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
