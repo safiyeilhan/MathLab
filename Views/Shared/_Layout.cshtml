@@ -85,6 +85,14 @@
             </div>
         </nav>
     </header>
+    <div class="container mt-3">
+        @if (!string.Equals(ViewContext.RouteData.Values["action"]?.ToString(), "Index", StringComparison.OrdinalIgnoreCase))
+        {
+            <button id="backBtn" type="button" class="btn btn-outline-secondary">
+                ← Geri
+            </button>
+        }
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -99,6 +107,20 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        (function () {
+            var btn = document.getElementById('backBtn');
+            if (btn) {
+                btn.addEventListener('click', function (e) {
+                    if (history.length > 1) {
+                        history.back();
+                    } else {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
+                });
+            }
+        })();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
