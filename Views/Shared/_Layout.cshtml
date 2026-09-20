@@ -86,7 +86,15 @@
         </nav>
     </header>
     @* Floating back button: gösterilmesi istenen sayfalarda çıkacak *@
-    @if (!string.Equals(ViewContext.RouteData.Values["action"]?.ToString(), "Index", StringComparison.OrdinalIgnoreCase))
+    @{
+        // Show back button on any page except the site root/Home Index.
+        var currentPath = Context.Request.Path.Value ?? string.Empty;
+        var homeIndexPath = Url.Action("Index", "Home") ?? "/";
+        var showBack = !string.Equals(currentPath, "/", StringComparison.OrdinalIgnoreCase)
+                       && !string.Equals(currentPath, homeIndexPath, StringComparison.OrdinalIgnoreCase);
+    }
+
+    @if (showBack)
     {
         <button id="backBtn" type="button" class="btn btn-primary floating-back-btn" title="Geri dön" data-bs-toggle="tooltip" data-bs-placement="left" aria-label="Geri dön">
             <span aria-hidden="true">←</span>
