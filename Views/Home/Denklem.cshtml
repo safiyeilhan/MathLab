@@ -1,0 +1,170 @@
+﻿@{
+    ViewData["Title"] = "Denklem Çözme";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Denklem Çözme</h1>
+
+        <p class="text-muted">
+            2. dereceden denklemlerin köklerini hesaplayın.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">2. Dereceden Denklem</h3>
+
+                    <div class="alert alert-info">
+                        <strong>Genel Denklem</strong>
+                        <br />
+                        ax² + bx + c = 0
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Denklem katsayıları
+                        </label>
+
+                        <input type="number"
+                               id="denklemA"
+                               class="form-control mb-2"
+                               placeholder="a değeri">
+
+                        <input type="number"
+                               id="denklemB"
+                               class="form-control mb-2"
+                               placeholder="b değeri">
+
+                        <input type="number"
+                               id="denklemC"
+                               class="form-control"
+                               placeholder="c değeri">
+
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="denklemCoz()">
+                        Denklemi Çöz
+                    </button>
+
+                    <div id="denklemSonuc"
+                         class="alert alert-light mt-4">
+                        Sonuç burada gösterilecek.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function denklemCoz() {
+
+        const aInput = document.getElementById("denklemA").value;
+        const bInput = document.getElementById("denklemB").value;
+        const cInput = document.getElementById("denklemC").value;
+
+        if (
+            aInput === "" ||
+            bInput === "" ||
+            cInput === ""
+        ) {
+
+            document.getElementById("denklemSonuc").innerHTML =
+                "Lütfen tüm alanları doldurun.";
+
+            return;
+        }
+
+        const a = Number(aInput);
+        const b = Number(bInput);
+        const c = Number(cInput);
+
+        if (a === 0) {
+
+            document.getElementById("denklemSonuc").innerHTML =
+                "a değeri 0 olamaz. Lütfen 2. dereceden bir denklem girin.";
+
+            return;
+        }
+
+        const delta = (b * b) - (4 * a * c);
+
+        let sonuc = "";
+
+        if (delta > 0) {
+
+            const x1 =
+                (-b + Math.sqrt(delta)) / (2 * a);
+
+            const x2 =
+                (-b - Math.sqrt(delta)) / (2 * a);
+
+            sonuc =
+                "<strong>Denklem:</strong> " +
+                a + "x² + " + b + "x + " + c + " = 0" +
+
+                "<br><strong>Diskriminant (Δ):</strong> " +
+                delta +
+
+                "<br><strong>Durum:</strong> İki farklı gerçek kök vardır." +
+
+                "<br><strong>x₁:</strong> " +
+                x1.toFixed(2) +
+
+                "<br><strong>x₂:</strong> " +
+                x2.toFixed(2);
+        }
+
+        else if (delta === 0) {
+
+            const x =
+                -b / (2 * a);
+
+            sonuc =
+                "<strong>Denklem:</strong> " +
+                a + "x² + " + b + "x + " + c + " = 0" +
+
+                "<br><strong>Diskriminant (Δ):</strong> " +
+                delta +
+
+                "<br><strong>Durum:</strong> Bir gerçek kök vardır." +
+
+                "<br><strong>x:</strong> " +
+                x.toFixed(2);
+        }
+
+        else {
+
+            sonuc =
+                "<strong>Denklem:</strong> " +
+                a + "x² + " + b + "x + " + c + " = 0" +
+
+                "<br><strong>Diskriminant (Δ):</strong> " +
+                delta +
+
+                "<br><strong>Durum:</strong> Gerçek kök yoktur.";
+        }
+
+        document.getElementById("denklemSonuc").innerHTML =
+            sonuc;
+    }
+
+</script>

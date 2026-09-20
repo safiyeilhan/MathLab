@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "Fonksiyonlar";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Fonksiyonlar</h1>
+        <p class="text-muted">
+            f(x) = ax² + bx + c biçimindeki fonksiyonları hesaplayın.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">Fonksiyon Hesaplama</h3>
+
+                    <div class="mb-3">
+                        <label for="aDegeri" class="form-label">
+                            a Katsayısı
+                        </label>
+
+                        <input type="number"
+                               id="aDegeri"
+                               class="form-control"
+                               placeholder="Örnek: 1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bDegeri" class="form-label">
+                            b Katsayısı
+                        </label>
+
+                        <input type="number"
+                               id="bDegeri"
+                               class="form-control"
+                               placeholder="Örnek: 2">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cDegeri" class="form-label">
+                            c Sabiti
+                        </label>
+
+                        <input type="number"
+                               id="cDegeri"
+                               class="form-control"
+                               placeholder="Örnek: 1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="xDegeri" class="form-label">
+                            x Değeri
+                        </label>
+
+                        <input type="number"
+                               id="xDegeri"
+                               class="form-control"
+                               placeholder="Örnek: 3">
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="fonksiyonHesapla()">
+                        Fonksiyonu Hesapla
+                    </button>
+
+                    <div id="fonksiyonSonuc"
+                         class="alert alert-light mt-4 text-center">
+                        Sonuç burada gösterilecek.
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function fonksiyonHesapla() {
+
+        const a = parseFloat(document.getElementById("aDegeri").value);
+        const b = parseFloat(document.getElementById("bDegeri").value);
+        const c = parseFloat(document.getElementById("cDegeri").value);
+        const x = parseFloat(document.getElementById("xDegeri").value);
+
+        const sonucAlani = document.getElementById("fonksiyonSonuc");
+
+        if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(x)) {
+
+            sonucAlani.className = "alert alert-danger mt-4 text-center";
+            sonucAlani.textContent = "Lütfen tüm alanları doldurun.";
+
+            return;
+        }
+
+        const sonuc = (a * x * x) + (b * x) + c;
+
+        sonucAlani.className = "alert alert-success mt-4 text-center";
+        sonucAlani.textContent = "f(" + x + ") = " + sonuc;
+    }
+</script>

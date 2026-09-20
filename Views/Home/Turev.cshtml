@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Türev Hesaplama";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Türev Hesaplama</h1>
+
+        <p class="text-muted">
+            Bir fonksiyonun belirli bir noktadaki türevini hesaplayın.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">Fonksiyon</h3> 
+
+                    <div class="alert alert-info">
+    <strong>2. Dereceden Fonksiyon</strong>
+    <br />
+    f(x) = ax² + bx + c
+</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Fonksiyon katsayılarını girin
+                        </label>
+
+                        <input type="number"
+                               id="turevA"
+                               class="form-control mb-2"
+                               placeholder="a değeri">
+
+                        <input type="number"
+                               id="turevB"
+                               class="form-control mb-2"
+                               placeholder="b değeri">
+
+                        <input type="number"
+                               id="turevC"
+                               class="form-control"
+                               placeholder="c değeri">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">
+                            x değeri
+                        </label>
+
+                        <input type="number"
+                               id="turevX"
+                               class="form-control"
+                               placeholder="Örneğin: 2">
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="turevHesapla()">
+                        Türevi Hesapla
+                    </button>
+
+                    <div id="turevSonuc"
+                         class="alert alert-light mt-4">
+                        Sonuç burada gösterilecek.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function turevHesapla() {
+
+        const a = Number(document.getElementById("turevA").value);
+        const b = Number(document.getElementById("turevB").value);
+        const c = Number(document.getElementById("turevC").value);
+        const x = Number(document.getElementById("turevX").value);
+
+        if (
+            document.getElementById("turevA").value === "" ||
+            document.getElementById("turevB").value === "" ||
+            document.getElementById("turevC").value === "" ||
+            document.getElementById("turevX").value === ""
+        ) {
+            document.getElementById("turevSonuc").innerHTML =
+                "Lütfen tüm alanları doldurun.";
+            return;
+        }
+
+        if (a === 0) {
+    document.getElementById("turevSonuc").innerHTML =
+        "a değeri 0 olamaz. Lütfen 2. dereceden bir fonksiyon için a değerini 0'dan farklı girin.";
+    return;
+}
+
+
+        const sonuc = (2 * a * x) + b;
+
+        const turevFonksiyonu = (2 * a) + "x + " + b;
+
+document.getElementById("turevSonuc").innerHTML =
+    "<strong>Fonksiyon:</strong> f(x) = " + a + "x² + " + b + "x + " + c +
+    "<br><strong>Türev:</strong> f'(x) = " + turevFonksiyonu +
+    "<br><strong>x = " + x + " için:</strong> f'(" + x + ") = " + sonuc;
+    }
+
+</script>

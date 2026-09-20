@@ -1,0 +1,182 @@
+﻿@{
+    ViewData["Title"] = "İntegral Hesaplama";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>İntegral Hesaplama</h1>
+
+        <p class="text-muted">
+            2. dereceden bir fonksiyonun belirli integralini hesaplayın.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">Fonksiyon</h3>
+
+                    <div class="alert alert-info">
+                        <strong>2. Dereceden Fonksiyon</strong>
+                        <br />
+                        f(x) = ax² + bx + c
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Fonksiyon katsayıları
+                        </label>
+
+                        <input type="number"
+                               id="integralA"
+                               class="form-control mb-2"
+                               placeholder="a değeri">
+
+                        <input type="number"
+                               id="integralB"
+                               class="form-control mb-2"
+                               placeholder="b değeri">
+
+                        <input type="number"
+                               id="integralC"
+                               class="form-control"
+                               placeholder="c değeri">
+
+                    </div>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Alt Sınır
+                            </label>
+
+                            <input type="number"
+                                   id="altSinir"
+                                   class="form-control"
+                                   placeholder="Örneğin: 0">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Üst Sınır
+                            </label>
+
+                            <input type="number"
+                                   id="ustSinir"
+                                   class="form-control"
+                                   placeholder="Örneğin: 2">
+
+                        </div>
+
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="integralHesapla()">
+                        İntegrali Hesapla
+                    </button>
+
+                    <div id="integralSonuc"
+                         class="alert alert-light mt-4">
+                        Sonuç burada gösterilecek.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function integralHesapla() {
+
+        const aInput = document.getElementById("integralA").value;
+        const bInput = document.getElementById("integralB").value;
+        const cInput = document.getElementById("integralC").value;
+        const altInput = document.getElementById("altSinir").value;
+        const ustInput = document.getElementById("ustSinir").value;
+
+        if (
+            aInput === "" ||
+            bInput === "" ||
+            cInput === "" ||
+            altInput === "" ||
+            ustInput === ""
+        ) {
+
+            document.getElementById("integralSonuc").innerHTML =
+                "Lütfen tüm alanları doldurun.";
+
+            return;
+        }
+
+        const a = Number(aInput);
+        const b = Number(bInput);
+        const c = Number(cInput);
+        const alt = Number(altInput);
+        const ust = Number(ustInput);
+
+        if (a === 0) {
+
+            document.getElementById("integralSonuc").innerHTML =
+                "a değeri 0 olamaz. Lütfen 2. dereceden bir fonksiyon girin.";
+
+            return;
+        }
+
+        if (alt >= ust) {
+
+            document.getElementById("integralSonuc").innerHTML =
+                "Üst sınır, alt sınırdan büyük olmalıdır.";
+
+            return;
+        }
+
+        const altDeger =
+            (a / 3) * Math.pow(alt, 3) +
+            (b / 2) * Math.pow(alt, 2) +
+            c * alt;
+
+        const ustDeger =
+            (a / 3) * Math.pow(ust, 3) +
+            (b / 2) * Math.pow(ust, 2) +
+            c * ust;
+
+        const sonuc = ustDeger - altDeger;
+
+        const integralFonksiyonu =
+            "(" + a + "/3)x³ + (" + b + "/2)x² + " + c + "x";
+
+        document.getElementById("integralSonuc").innerHTML =
+
+            "<strong>Fonksiyon:</strong> " +
+            "f(x) = " + a + "x² + " + b + "x + " + c +
+
+            "<br><strong>Belirsiz İntegral:</strong> " +
+            "F(x) = " + integralFonksiyonu +
+
+            "<br><strong>Aralık:</strong> [" +
+            alt + ", " + ust + "]" +
+
+            "<br><strong>Belirli İntegral Sonucu:</strong> " +
+            sonuc.toFixed(2);
+    }
+
+</script>

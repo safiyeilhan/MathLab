@@ -1,0 +1,278 @@
+﻿@{
+    ViewData["Title"] = "Fonksiyon Grafiği";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Fonksiyon Grafiği</h1>
+
+        <p class="text-muted">
+            2. dereceden bir fonksiyonun grafiğini koordinat düzleminde görüntüleyin.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-10">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">f(x) = ax² + bx + c</h3>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                a değeri
+                            </label>
+
+                            <input type="number"
+                                   id="grafikA"
+                                   class="form-control"
+                                   placeholder="Örneğin: 1">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                b değeri
+                            </label>
+
+                            <input type="number"
+                                   id="grafikB"
+                                   class="form-control"
+                                   placeholder="Örneğin: -2">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                c değeri
+                            </label>
+
+                            <input type="number"
+                                   id="grafikC"
+                                   class="form-control"
+                                   placeholder="Örneğin: -3">
+
+                        </div>
+
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100 mb-4"
+                            onclick="grafikCiz()">
+                        Grafiği Çiz
+                    </button>
+
+                    <div id="grafikSonuc"
+                         class="alert alert-light">
+                        Grafik bilgileri burada gösterilecek.
+                    </div>
+
+                    <div class="text-center">
+
+                        <canvas id="grafikCanvas"
+                                width="800"
+                                height="500"
+                                style="max-width: 100%; border: 1px solid #ddd;">
+                        </canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function grafikCiz() {
+
+        const aInput = document.getElementById("grafikA").value;
+        const bInput = document.getElementById("grafikB").value;
+        const cInput = document.getElementById("grafikC").value;
+
+        if (
+            aInput === "" ||
+            bInput === "" ||
+            cInput === ""
+        ) {
+
+            document.getElementById("grafikSonuc").innerHTML =
+                "Lütfen tüm katsayıları doldurun.";
+
+            return;
+        }
+
+        const a = Number(aInput);
+        const b = Number(bInput);
+        const c = Number(cInput);
+
+        if (a === 0) {
+
+            document.getElementById("grafikSonuc").innerHTML =
+                "a değeri 0 olamaz. Lütfen 2. dereceden bir fonksiyon girin.";
+
+            return;
+        }
+
+        const canvas = document.getElementById("grafikCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        ctx.clearRect(0, 0, width, height);
+
+        const xMin = -10;
+        const xMax = 10;
+        const yMin = -10;
+        const yMax = 10;
+
+        const xScale = width / (xMax - xMin);
+        const yScale = height / (yMax - yMin);
+
+        function canvasX(x) {
+            return (x - xMin) * xScale;
+        }
+
+        function canvasY(y) {
+            return height - ((y - yMin) * yScale);
+        }
+
+        // Izgara
+
+        ctx.beginPath();
+
+        for (let x = xMin; x <= xMax; x++) {
+
+            const px = canvasX(x);
+
+            ctx.moveTo(px, 0);
+            ctx.lineTo(px, height);
+        }
+
+        for (let y = yMin; y <= yMax; y++) {
+
+            const py = canvasY(y);
+
+            ctx.moveTo(0, py);
+            ctx.lineTo(width, py);
+        }
+
+        ctx.strokeStyle = "#eeeeee";
+        ctx.stroke();
+
+        // Eksenler
+
+        ctx.beginPath();
+
+        ctx.moveTo(canvasX(0), 0);
+        ctx.lineTo(canvasX(0), height);
+
+        ctx.moveTo(0, canvasY(0));
+        ctx.lineTo(width, canvasY(0));
+
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Fonksiyon
+
+        ctx.beginPath();
+
+        let ilkNokta = true;
+
+        for (let pixelX = 0; pixelX <= width; pixelX++) {
+
+            const x =
+                xMin + (pixelX / width) * (xMax - xMin);
+
+            const y =
+                a * x * x +
+                b * x +
+                c;
+
+            const pixelY = canvasY(y);
+
+            if (
+                pixelY < -1000 ||
+                pixelY > height + 1000
+            ) {
+
+                ilkNokta = true;
+                continue;
+            }
+
+            if (ilkNokta) {
+
+                ctx.moveTo(pixelX, pixelY);
+                ilkNokta = false;
+
+            } else {
+
+                ctx.lineTo(pixelX, pixelY);
+            }
+        }
+
+        ctx.strokeStyle = "#0d6efd";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Tepe noktası
+
+        const tepeX = -b / (2 * a);
+
+        const tepeY =
+            a * tepeX * tepeX +
+            b * tepeX +
+            c;
+
+        if (
+            tepeX >= xMin &&
+            tepeX <= xMax &&
+            tepeY >= yMin &&
+            tepeY <= yMax
+        ) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                canvasX(tepeX),
+                canvasY(tepeY),
+                6,
+                0,
+                2 * Math.PI
+            );
+
+            ctx.fillStyle = "#dc3545";
+            ctx.fill();
+        }
+
+        document.getElementById("grafikSonuc").innerHTML =
+
+            "<strong>Fonksiyon:</strong> " +
+            "f(x) = " + a + "x² + " + b + "x + " + c +
+
+            "<br><strong>Tepe Noktası:</strong> (" +
+            tepeX.toFixed(2) +
+            ", " +
+            tepeY.toFixed(2) +
+            ")";
+
+    }
+
+</script>

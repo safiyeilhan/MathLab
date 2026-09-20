@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Hesaplama";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Matematiksel Hesaplama</h1>
+        <p class="text-muted">
+            Temel matematiksel işlemlerinizi kolayca gerçekleştirin.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">Hesap Makinesi</h3>
+
+                    <div class="mb-3">
+                        <label for="sayi1" class="form-label">
+                            Birinci Sayı
+                        </label>
+
+                        <input type="number"
+                               id="sayi1"
+                               class="form-control"
+                               placeholder="Bir sayı girin">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="islem" class="form-label">
+                            İşlem
+                        </label>
+
+                        <select id="islem" class="form-select">
+                            <option value="+">Toplama (+)</option>
+                            <option value="-">Çıkarma (-)</option>
+                            <option value="*">Çarpma (×)</option>
+                            <option value="/">Bölme (÷)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sayi2" class="form-label">
+                            İkinci Sayı
+                        </label>
+
+                        <input type="number"
+                               id="sayi2"
+                               class="form-control"
+                               placeholder="Bir sayı girin">
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="hesapla()">
+                        Hesapla
+                    </button>
+
+                    <div id="sonucAlani"
+                         class="alert alert-light mt-4 text-center">
+                        Sonuç burada gösterilecek.
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function hesapla() {
+
+        const sayi1 = parseFloat(document.getElementById("sayi1").value);
+        const sayi2 = parseFloat(document.getElementById("sayi2").value);
+        const islem = document.getElementById("islem").value;
+
+        const sonucAlani = document.getElementById("sonucAlani");
+
+        if (isNaN(sayi1) || isNaN(sayi2)) {
+            sonucAlani.className = "alert alert-danger mt-4 text-center";
+            sonucAlani.textContent = "Lütfen iki sayı da girin.";
+            return;
+        }
+
+        let sonuc;
+
+        switch (islem) {
+
+            case "+":
+                sonuc = sayi1 + sayi2;
+                break;
+
+            case "-":
+                sonuc = sayi1 - sayi2;
+                break;
+
+            case "*":
+                sonuc = sayi1 * sayi2;
+                break;
+
+            case "/":
+
+                if (sayi2 === 0) {
+                    sonucAlani.className = "alert alert-danger mt-4 text-center";
+                    sonucAlani.textContent = "Bir sayı 0'a bölünemez.";
+                    return;
+                }
+
+                sonuc = sayi1 / sayi2;
+                break;
+        }
+
+        sonucAlani.className = "alert alert-success mt-4 text-center";
+        sonucAlani.textContent = "Sonuç: " + sonuc;
+    }
+</script>

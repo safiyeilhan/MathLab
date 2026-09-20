@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "İstatistik";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>İstatistiksel Analiz</h1>
+
+        <p class="text-muted">
+            Verilerinizi girin ve temel istatistiksel değerleri hesaplayın.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">Veri Analizi</h3>
+
+                    <div class="mb-3">
+
+                        <label for="veriler" class="form-label">
+                            Veriler
+                        </label>
+
+                        <input type="text"
+                               id="veriler"
+                               class="form-control"
+                               placeholder="Örnek: 10, 15, 20, 25, 30">
+
+                        <div class="form-text">
+                            Sayıları virgül ile ayırarak girin.
+                        </div>
+
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="istatistikHesapla()">
+
+                        Analiz Et
+
+                    </button>
+
+                    <div id="istatistikSonuc"
+                         class="alert alert-light mt-4">
+
+                        Sonuçlar burada gösterilecek.
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function istatistikHesapla() {
+
+        const veriMetni = document.getElementById("veriler").value.trim();
+        const sonucAlani = document.getElementById("istatistikSonuc");
+
+        if (veriMetni === "") {
+            sonucAlani.className = "alert alert-danger mt-4";
+            sonucAlani.textContent = "Lütfen veri girin.";
+            return;
+        }
+
+        const veriler = veriMetni
+            .split(",")
+            .map(veri => Number(veri.trim()));
+
+        if (veriler.some(veri => isNaN(veri))) {
+            sonucAlani.className = "alert alert-danger mt-4";
+            sonucAlani.textContent =
+                "Lütfen sadece sayısal değerler girin.";
+            return;
+        }
+
+        if (veriler.length === 0) {
+            sonucAlani.className = "alert alert-danger mt-4";
+            sonucAlani.textContent = "Geçerli veri bulunamadı.";
+            return;
+        }
+
+        const veriSayisi = veriler.length;
+
+        const toplam = veriler.reduce(
+            (toplam, veri) => toplam + veri,
+            0
+        );
+
+        const ortalama = toplam / veriSayisi;
+
+        const siraliVeriler = [...veriler].sort(
+            (a, b) => a - b
+        );
+
+        let medyan;
+
+        if (veriSayisi % 2 === 0) {
+
+            const orta1 = siraliVeriler[(veriSayisi / 2) - 1];
+            const orta2 = siraliVeriler[veriSayisi / 2];
+
+            medyan = (orta1 + orta2) / 2;
+
+        } else {
+
+            medyan = siraliVeriler[
+                Math.floor(veriSayisi / 2)
+            ];
+
+        }
+
+        const minimum = Math.min(...veriler);
+        const maksimum = Math.max(...veriler);
+
+        const karelerToplami = veriler.reduce(
+            (toplam, veri) =>
+                toplam + Math.pow(veri - ortalama, 2),
+            0
+        );
+
+        const varyans = karelerToplami / veriSayisi;
+
+        const standartSapma = Math.sqrt(varyans);
+
+        sonucAlani.className = "alert alert-success mt-4";
+
+        sonucAlani.innerHTML = `
+            <h4 class="mb-3">Analiz Sonuçları</h4>
+
+            <p><strong>Veri Sayısı:</strong> ${veriSayisi}</p>
+
+            <p><strong>Toplam:</strong> ${toplam}</p>
+
+            <p><strong>Ortalama:</strong> ${ortalama.toFixed(2)}</p>
+
+            <p><strong>Medyan:</strong> ${medyan}</p>
+
+            <p><strong>Minimum:</strong> ${minimum}</p>
+
+            <p><strong>Maksimum:</strong> ${maksimum}</p>
+
+            <p>
+                <strong>Standart Sapma:</strong>
+                ${standartSapma.toFixed(2)}
+            </p>
+        `;
+    }
+</script>
